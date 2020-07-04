@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7873349221701362563}
   - component: {fileID: 3672551843448983763}
   - component: {fileID: -2175597892401288831}
+  - component: {fileID: -2520924806517489412}
   m_Layer: 0
   m_Name: Diamond
   m_TagString: Noodle
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f49f3f9236f67d4d9c1c9205e092341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  noodleType: 0
 --- !u!50 &-2175597892401288831
 Rigidbody2D:
   serializedVersion: 4
@@ -144,3 +145,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-2520924806517489412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7873349221701362560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 254c54e98b362af439d1430bbd70b93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4669897868379299762}
   - component: {fileID: 5949126726174243202}
   - component: {fileID: -1893545114052081986}
+  - component: {fileID: -3050724201034984782}
   m_Layer: 0
   m_Name: Polygon
   m_TagString: Noodle
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f49f3f9236f67d4d9c1c9205e092341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  noodleType: 2
 --- !u!50 &-1893545114052081986
 Rigidbody2D:
   serializedVersion: 4
@@ -144,3 +145,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-3050724201034984782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4669897868379299759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 254c54e98b362af439d1430bbd70b93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3

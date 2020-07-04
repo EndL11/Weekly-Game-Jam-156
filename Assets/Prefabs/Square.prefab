@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5555407075692114234}
   - component: {fileID: 3446292344493371809}
   - component: {fileID: 4977305343158063450}
+  - component: {fileID: 8034408804127589697}
   m_Layer: 0
   m_Name: Square
   m_TagString: Noodle
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f49f3f9236f67d4d9c1c9205e092341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  noodleType: 3
 --- !u!50 &4977305343158063450
 Rigidbody2D:
   serializedVersion: 4
@@ -144,3 +145,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8034408804127589697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5555407075692114233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 254c54e98b362af439d1430bbd70b93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3

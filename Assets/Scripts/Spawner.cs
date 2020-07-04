@@ -6,8 +6,8 @@ public class Spawner : MonoBehaviour
 {
     public GameObject[] prefabs;        //  noodles prefabs
     public Transform[] spawnPoints;     //  spawn points
-    private float spawnDelay = .5f;     //  delay between spawns on single wave
-    private float spawnWavesDelay = .3f;   //  delay between noodle waves
+    private float spawnDelay = .3f;     //  delay between spawns on single wave
+    private float spawnWavesDelay = .2f;   //  delay between noodle waves
     private int waves = 30;              //  waves of spawns
     private int maxPointsSpawn = 3;      //  max of spawn points of single wave
 

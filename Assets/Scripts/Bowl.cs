@@ -19,6 +19,9 @@ public class Bowl : MonoBehaviour
     public float speed = 5f;
     private Camera _camera;
     public ParticleSystem correctNoodle;
+    public ParticleSystem wrongNoodle;
+
+    public NoodleTypes.types type;
 
     private void Awake()
     {
@@ -54,12 +57,29 @@ public class Bowl : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, newPosition, Time.deltaTime * speed);
     }
 
+    private void WrongitemInBowlPS()
+    {
+        wrongNoodle.Play();
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Noodle"))
         {
-            correctNoodle.Play();
+            Noodle current = collision.GetComponent<Noodle>();
+            if (current.noodleType == type)
+            {
+                correctNoodle.Play();
+            }
+            else
+            {
+                WrongitemInBowlPS();
+            }
+        }
+        else if (collision.CompareTag("NotNoodle"))
+        {
+            WrongitemInBowlPS();
         }
     }
 }

@@ -4,17 +4,7 @@ using UnityEngine;
 
 public class Noodle : MonoBehaviour
 {
-    public float speed = 3f;
-
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        transform.Translate(Vector2.down * speed * Time.deltaTime);
-    }
+    public NoodleTypes.types noodleType;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
