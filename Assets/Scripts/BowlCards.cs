@@ -20,6 +20,8 @@ public class BowlCards : MonoBehaviour
     private Sprite sprite;
     private Color color;
 
+    public bool done = false;
+
     void Awake()
     {
         bowlSprite = GetGameObjectSprite(bowlCardStats.gameObject);
@@ -67,8 +69,7 @@ public class BowlCards : MonoBehaviour
 
         ChangeAppereance();
 
-        LevelManager.instance.RefreshProgress();
-
+        LevelManager.instance.SetProgress();
     }
 
     private void ChangeAppereance()
@@ -85,5 +86,11 @@ public class BowlCards : MonoBehaviour
     private Sprite GetGameObjectSprite(GameObject bowl)
     {
         return bowl.GetComponent<SpriteRenderer>().sprite;
+    }
+
+    public void Done()
+    {
+        done = true;
+        GetComponent<Image>().color = Color.red;
     }
 }

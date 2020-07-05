@@ -34,7 +34,7 @@ public class Bowl : MonoBehaviour
 
     private void Start()
     {
-        LevelManager.instance.ChangeBowl(this.gameObject);
+        LevelManager.instance.SetProgress(this.gameObject);
     }
 
     public void SetProgress(Bowl temp)
@@ -69,11 +69,13 @@ public class Bowl : MonoBehaviour
         float mousePositionX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
         Vector2 newPosition = transform.position;
         newPosition.x = mousePositionX;
-        transform.position = Vector2.MoveTowards(transform.position, newPosition, Time.deltaTime * speed);
+        //transform.position = Vector2.MoveTowards(transform.position, newPosition, Time.deltaTime * speed);
+        transform.position = newPosition;
     }
 
     private void WrongitemInBowlPS()
     {
+        LevelManager.instance.AddScore(-50);
         wrongNoodle.Play();
     }
 
@@ -88,6 +90,7 @@ public class Bowl : MonoBehaviour
                 currentProgress++;
                 LevelManager.instance.IncreaseCurrentCount();
                 correctNoodle.Play();
+                LevelManager.instance.AddScore(150);
             }
             else
             {

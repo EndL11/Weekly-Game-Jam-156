@@ -9,8 +9,8 @@ public class LevelManager : MonoBehaviour
     public int score;
 
     public Text scoreText;
-    public Image noodleIcon;
     public Text noodleCount;
+    public Image noodleIcon;
     public int currentCount;
     public int expectedCount;
     public GameObject progressObject;
@@ -18,7 +18,10 @@ public class LevelManager : MonoBehaviour
     private NoodleType[] db;
 
     public GameObject[] bowlCards;
+    private int cardsDone = 0;
     private int currentCard = 0;
+
+    public bool win = false;
 
     private void Awake()
     {
@@ -36,22 +39,72 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            BowlCards bowlCardComponent = bowlCards[currentCard].GetComponent<BowlCards>();
-            bowlCardComponent.SwapBowl();
-            if(bowlCards.Length > 1)
-            {
-                currentCard = (bowlCards.Length) > (currentCard + 1) ? currentCard + 1 : 0;
-            }
+        if (Input.GetMouseButtonDown(1) && !win)
+        {            
+            ChangeBowl();
         }
     }
-
 
     public void IncreaseCurrentCount()
     {
         currentCount++;
         ChangeNoodleProgressText();
+
+        if(currentCount == expectedCount)
+        {
+            SelectNextCard();
+            ChangeBowl();
+            int prev = currentCard - 1;
+            if ((currentCard - 1) == bowlCards.Length - 1)
+            {
+                prev = bowlCards.Length - 2;
+            }
+            else if ((currentCard - 1) == -1)
+            {
+                prev = bowlCards.Length - 1;
+            }
+            BowlCards doneBowlCard = bowlCards[prev].GetComponent<BowlCards>();
+            doneBowlCard.Done();
+            cardsDone++;
+        }
+
+        if (cardsDone == bowlCards.Length + 1)
+        {
+            WinPreparation();
+        }
+
+    }
+
+    private void WinPreparation()
+    {
+        win = true;
+        Time.timeScale = 0;
+        Debug.Log($"You win this lvl with score: {score}");
+    }
+
+    private BowlCards GetCurrentCard()
+    {
+        return bowlCards[currentCard].GetComponent<BowlCards>();
+    }
+
+    private void ChangeBowl()
+    {
+        if(cardsDone == bowlCards.Length)
+        {
+            return;
+        }
+
+        BowlCards bowlCardComponent = GetCurrentCard();
+        while (bowlCardComponent.done)
+        {
+            SelectNextCard();
+            bowlCardComponent = bowlCards[currentCard].GetComponent<BowlCards>();
+        }
+        bowlCardComponent.SwapBowl();
+        if (bowlCards.Length > 1)
+        {
+            SelectNextCard();
+        }
     }
 
     public void AddScore(int value)
@@ -60,22 +113,40 @@ public class LevelManager : MonoBehaviour
         scoreText.text = $"Score: {score}";
     }
 
-    public void ChangeBowl(GameObject bowl)
+    public void SetProgress(GameObject bowlObj=null)
     {
         ToggleProgressObject(false);
 
-        Bowl newBowl = bowl.GetComponent<Bowl>();
         Sprite noodleSprite = null;
-        for(int i = 0; i < db.Length; i++)
+        if (bowlObj)
         {
-            if(newBowl.type == db[i].type)
+            Bowl bowl = bowlObj.GetComponent<Bowl>();
+            for (int i = 0; i < db.Length; i++)
             {
-                noodleSprite = db[i].sprite;
+                if (bowl.type == db[i].type)
+                {
+                    noodleSprite = db[i].sprite;
+                }
             }
+            noodleIcon.sprite = noodleSprite;
+            currentCount = bowl.currentProgress;
+            expectedCount = bowl.expectedProgress;
         }
-        noodleIcon.sprite = noodleSprite;
-        currentCount = newBowl.currentProgress;
-        expectedCount = newBowl.expectedProgress;
+        else
+        {
+            Bowl bowl = GameObject.FindGameObjectWithTag("Bowl").GetComponent<Bowl>();
+            for (int i = 0; i < db.Length; i++)
+            {
+                if (bowl.type == db[i].type)
+                {
+                    noodleSprite = db[i].sprite;
+                }
+            }
+            noodleIcon.sprite = noodleSprite;
+            currentCount = bowl.currentProgress;
+            expectedCount = bowl.expectedProgress;
+        }
+
         ChangeNoodleProgressText();
 
         ToggleProgressObject(true);
@@ -91,24 +162,12 @@ public class LevelManager : MonoBehaviour
         noodleCount.text = $"{currentCount} / {expectedCount}";
     }
 
-    public void RefreshProgress()
+    private void SelectNextCard()
     {
-        ToggleProgressObject(false);
-
-        Bowl bowl = GameObject.FindGameObjectWithTag("Bowl").GetComponent<Bowl>();
-        Sprite noodleSprite = null;
-        for (int i = 0; i < db.Length; i++)
+        if (cardsDone == bowlCards.Length)
         {
-            if (bowl.type == db[i].type)
-            {
-                noodleSprite = db[i].sprite;
-            }
+            return;
         }
-        noodleIcon.sprite = noodleSprite;
-        currentCount = bowl.currentProgress;
-        expectedCount = bowl.expectedProgress;
-        ChangeNoodleProgressText();
-
-        ToggleProgressObject(true);
+        currentCard = (bowlCards.Length) > (currentCard + 1) ? currentCard + 1 : 0;
     }
 }

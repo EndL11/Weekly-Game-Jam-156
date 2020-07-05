@@ -16,5 +16,9 @@ public class ItemMoving : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        else if (collision.CompareTag("EndBorder"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
