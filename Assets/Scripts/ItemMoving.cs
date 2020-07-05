@@ -9,4 +9,12 @@ public class ItemMoving : MonoBehaviour
     {
         transform.Translate(Vector2.down * speed * Time.deltaTime);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bowl"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }

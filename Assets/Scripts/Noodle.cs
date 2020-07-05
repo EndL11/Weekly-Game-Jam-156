@@ -12,10 +12,5 @@ public class Noodle : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else if (collision.CompareTag("Bowl"))
-        {
-            Debug.Log("Counted!");
-            Destroy(gameObject);
-        }
     }
 }

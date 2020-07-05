@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject[] prefabs;        //  noodles prefabs
-    public Transform[] spawnPoints;     //  spawn points
-    private float spawnDelay = .3f;     //  delay between spawns on single wave
-    private float spawnWavesDelay = .2f;   //  delay between noodle waves
-    private int waves = 30;              //  waves of spawns
-    private int maxPointsSpawn = 3;      //  max of spawn points of single wave
+    public GameObject[] trashPrefabs;       //  trash prefabs
+    public GameObject[] noodlePrefabs;      //  noodles prefabs
+    public Transform[] spawnPoints;         //  spawn points
+    private float spawnDelay = .3f;         //  delay between spawns on single wave
+    private float spawnWavesDelay = .2f;    //  delay between noodle waves
+    private int maxPointsSpawn = 4;         //  max of spawn points of single wave
 
     private void Start()
     {
@@ -18,7 +18,7 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator GenerateNoodles(float spawnWaveDelay)
     {
-        for(int i = 0; i < waves; i++)
+        while(true)
         {
             //List<int> spawnedPoints = new List<int>();
             for(int j = 0; j < maxPointsSpawn; j++)
@@ -29,7 +29,15 @@ public class Spawner : MonoBehaviour
                 //    randomPoint = GetRandomNumber(spawnPoints.Length);    //  for spawning by rows
                 //}
                 //spawnedPoints.Add(randomPoint);
-                GenerateRandomNoodle(randomPoint);
+                int rand = Random.Range(0, 2);
+                if(rand == 0)
+                {
+                    GenerateRandomPrefab(randomPoint, noodlePrefabs);
+                }
+                else
+                {
+                    GenerateRandomPrefab(randomPoint, trashPrefabs);
+                }
                 yield return new WaitForSeconds(spawnDelay);  //  spawning single noodle with delay
 
             }
@@ -38,9 +46,9 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    private void GenerateRandomNoodle(int spawnPointIndex)
+    private void GenerateRandomPrefab(int spawnPointIndex, GameObject[] prefabs)
     {
-        //  generating random noodle on certain point
+        //  generating random prefab on certain point
         int randomNoodleIndex = GetRandomNumber(prefabs.Length);
         Instantiate(prefabs[randomNoodleIndex], spawnPoints[spawnPointIndex].position, Quaternion.identity);
     }

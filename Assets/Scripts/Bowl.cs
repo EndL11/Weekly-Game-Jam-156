@@ -23,14 +23,29 @@ public class Bowl : MonoBehaviour
 
     public NoodleTypes.types type;
 
+    public int currentProgress = 0;
+    public int expectedProgress = 15;
+
     private void Awake()
     {
         _camera = Camera.main;
+        ResizeBorders();
     }
 
     private void Start()
     {
-        ResizeBorders();
+        LevelManager.instance.ChangeBowl(this.gameObject);
+    }
+
+    public void SetProgress(Bowl temp)
+    {
+        currentProgress = temp.currentProgress;
+        expectedProgress = temp.expectedProgress;
+    }
+
+    public void SetType(Bowl temp)
+    {
+        type = temp.type;
     }
 
     private void Update()
@@ -70,12 +85,15 @@ public class Bowl : MonoBehaviour
             Noodle current = collision.GetComponent<Noodle>();
             if (current.noodleType == type)
             {
+                currentProgress++;
+                LevelManager.instance.IncreaseCurrentCount();
                 correctNoodle.Play();
             }
             else
             {
                 WrongitemInBowlPS();
             }
+
         }
         else if (collision.CompareTag("NotNoodle"))
         {
