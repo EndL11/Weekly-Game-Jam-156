@@ -22,6 +22,8 @@ public class BowlCards : MonoBehaviour
 
     public bool done = false;
 
+    public int expectedCount = 0;
+
     void Awake()
     {
         bowlSprite = GetGameObjectSprite(bowlCardStats.gameObject);
@@ -41,6 +43,7 @@ public class BowlCards : MonoBehaviour
 
         temp.SetProgress(bowlCardStats);
         temp.SetType(bowlCardStats);
+        
 
         ChangeAppereance();
     }
@@ -92,5 +95,6 @@ public class BowlCards : MonoBehaviour
     {
         done = true;
         GetComponent<Image>().color = Color.red;
+        expectedCount = temp2.expectedProgress;
     }
 }

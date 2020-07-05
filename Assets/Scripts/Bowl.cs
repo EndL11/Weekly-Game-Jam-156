@@ -81,7 +81,7 @@ public class Bowl : MonoBehaviour
 
     private void WrongitemInBowlPS()
     {
-        LevelManager.instance.AddScore(-50);
+        LevelManager.instance.AddScore(LevelManager.instance.wrongNoodleValue);
         wrongNoodle.Play();
     }
 
@@ -96,7 +96,7 @@ public class Bowl : MonoBehaviour
                 currentProgress++;
                 LevelManager.instance.IncreaseCurrentCount();
                 correctNoodle.Play();
-                LevelManager.instance.AddScore(150);
+                LevelManager.instance.AddScore(LevelManager.instance.correctNoodleValue);
             }
             else
             {

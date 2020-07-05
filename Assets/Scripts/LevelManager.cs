@@ -9,6 +9,9 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
     public int score;
 
+    public int correctNoodleValue = 150;
+    public int wrongNoodleValue = -70;
+
     public Text scoreText;
     public Text noodleCount;
     public Image noodleIcon;
@@ -28,6 +31,9 @@ public class LevelManager : MonoBehaviour
 
     public GameObject pauseScreen;
     public GameObject endLevelScreen;
+
+    private float mistake = 31f;
+    private int starsPerLvl = 0;
 
     private void Awake()
     {
@@ -78,7 +84,6 @@ public class LevelManager : MonoBehaviour
             doneBowlCard.Done();
             cardsDone++;
         }
-        CheckWin();
     }
 
     private void WinPreparation()
@@ -86,6 +91,8 @@ public class LevelManager : MonoBehaviour
         win = true;
         Time.timeScale = 0;
         Debug.Log($"You win this lvl with score: {score}");
+        CalculateProgressResult();
+
     }
 
     private BowlCards GetCurrentCard()
@@ -206,5 +213,42 @@ public class LevelManager : MonoBehaviour
     public void Exit()
     {
         Application.Quit();
+    }
+
+    private void CalculateProgressResult()
+    {
+        int totalProgressCount = 0;
+        foreach(GameObject bowlcard in bowlCards)
+        {
+            BowlCards bc = bowlcard.GetComponent<BowlCards>();
+            totalProgressCount += bc.expectedCount;
+        }
+        Bowl currentBowl = GameObject.FindGameObjectWithTag("Bowl").GetComponent<Bowl>();
+        totalProgressCount += currentBowl.expectedProgress;
+        float maxScore = totalProgressCount * correctNoodleValue;
+
+        float firstGradeMistake = maxScore * (mistake / 100);
+        float threeStars = maxScore - firstGradeMistake;
+        float twoStars = maxScore - firstGradeMistake * 2;
+        float oneStars = maxScore - firstGradeMistake * 3;
+
+        if (score <= maxScore && score >= threeStars)
+        {
+            starsPerLvl = 3;
+        }
+        else if (score >= twoStars && score <= threeStars)
+        {
+            starsPerLvl = 2;
+        }
+        else if (score >= oneStars && score <= twoStars)
+        {
+            starsPerLvl = 1;
+        }
+        else if (score <= oneStars)
+        {
+            starsPerLvl = 0;
+        }
+
+        Debug.Log($"You have {starsPerLvl} stars!");
     }
 }
