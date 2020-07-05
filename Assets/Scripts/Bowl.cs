@@ -66,6 +66,12 @@ public class Bowl : MonoBehaviour
 
     private void MoveHorizontalToMouse()
     {
+
+        if(LevelManager.instance.pause || LevelManager.instance.win)
+        {
+            return;
+        }
+
         float mousePositionX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
         Vector2 newPosition = transform.position;
         newPosition.x = mousePositionX;

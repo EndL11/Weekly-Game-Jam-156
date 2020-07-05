@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
@@ -23,6 +24,11 @@ public class LevelManager : MonoBehaviour
 
     public bool win = false;
 
+    public bool pause = false;
+
+    public GameObject pauseScreen;
+    public GameObject endLevelScreen;
+
     private void Awake()
     {
         if(instance == null)
@@ -35,6 +41,7 @@ public class LevelManager : MonoBehaviour
         }
         db = GetComponent<NoodleDB>().noodles;
         ToggleProgressObject(false);
+        Time.timeScale = 1;
     }
 
     private void Update()
@@ -42,6 +49,10 @@ public class LevelManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && !win)
         {            
             ChangeBowl();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
         }
     }
 
@@ -67,12 +78,7 @@ public class LevelManager : MonoBehaviour
             doneBowlCard.Done();
             cardsDone++;
         }
-
-        if (cardsDone == bowlCards.Length + 1)
-        {
-            WinPreparation();
-        }
-
+        CheckWin();
     }
 
     private void WinPreparation()
@@ -85,6 +91,14 @@ public class LevelManager : MonoBehaviour
     private BowlCards GetCurrentCard()
     {
         return bowlCards[currentCard].GetComponent<BowlCards>();
+    }
+
+    private void CheckWin()
+    {
+        if (cardsDone == bowlCards.Length + 1)
+        {
+            WinPreparation();
+        }
     }
 
     private void ChangeBowl()
@@ -111,6 +125,7 @@ public class LevelManager : MonoBehaviour
     {
         score += value;
         scoreText.text = $"Score: {score}";
+        CheckWin();
     }
 
     public void SetProgress(GameObject bowlObj=null)
@@ -169,5 +184,27 @@ public class LevelManager : MonoBehaviour
             return;
         }
         currentCard = (bowlCards.Length) > (currentCard + 1) ? currentCard + 1 : 0;
+    }
+
+    public void Pause()
+    {
+        pause = !pause;
+        pauseScreen.SetActive(pause);
+        Time.timeScale = pause ? 0 : 1;
+    }
+
+    public void Menu()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
     }
 }
