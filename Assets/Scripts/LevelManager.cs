@@ -17,6 +17,9 @@ public class LevelManager : MonoBehaviour
 
     private NoodleType[] db;
 
+    public GameObject[] bowlCards;
+    private int currentCard = 0;
+
     private void Awake()
     {
         if(instance == null)
@@ -31,9 +34,17 @@ public class LevelManager : MonoBehaviour
         ToggleProgressObject(false);
     }
 
-    private void Start()
+    private void Update()
     {
-
+        if (Input.GetMouseButtonDown(1))
+        {
+            BowlCards bowlCardComponent = bowlCards[currentCard].GetComponent<BowlCards>();
+            bowlCardComponent.SwapBowl();
+            if(bowlCards.Length > 1)
+            {
+                currentCard = (bowlCards.Length) > (currentCard + 1) ? currentCard + 1 : 0;
+            }
+        }
     }
 
 
