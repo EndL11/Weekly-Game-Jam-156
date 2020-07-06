@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3446292344493371809}
   - component: {fileID: 4977305343158063450}
   - component: {fileID: 8034408804127589697}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Square
   m_TagString: Noodle
   m_Icon: {fileID: 0}
@@ -157,4 +157,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 254c54e98b362af439d1430bbd70b93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
