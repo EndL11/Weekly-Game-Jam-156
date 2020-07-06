@@ -29,6 +29,7 @@ public class LevelManager : MonoBehaviour
 
     public bool pause = false;
 
+    public GameObject mainScreen;
     public GameObject pauseScreen;
     public GameObject endLevelScreen;
 
@@ -72,11 +73,7 @@ public class LevelManager : MonoBehaviour
             SelectNextCard();
             ChangeBowl();
             int prev = currentCard - 1;
-            if ((currentCard - 1) == bowlCards.Length - 1)
-            {
-                prev = bowlCards.Length - 2;
-            }
-            else if ((currentCard - 1) == -1)
+            if ((currentCard - 1) == -1)
             {
                 prev = bowlCards.Length - 1;
             }
@@ -92,7 +89,8 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 0;
         Debug.Log($"You win this lvl with score: {score}");
         CalculateProgressResult();
-
+        endLevelScreen.SetActive(true);
+        mainScreen.SetActive(false);
     }
 
     private BowlCards GetCurrentCard()
@@ -195,9 +193,27 @@ public class LevelManager : MonoBehaviour
 
     public void Pause()
     {
+        if (win)
+        {
+            return;
+        }
         pause = !pause;
         pauseScreen.SetActive(pause);
+        mainScreen.SetActive(!pause);
         Time.timeScale = pause ? 0 : 1;
+    }
+
+    public void NextLevel()
+    {
+        int activeScene = SceneManager.GetActiveScene().buildIndex;
+        if ((SceneManager.sceneCountInBuildSettings - 1) != activeScene)
+        {
+            SceneManager.LoadScene(activeScene + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     public void Menu()
