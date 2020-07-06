@@ -36,6 +36,11 @@ public class LevelManager : MonoBehaviour
     private float mistake = 31f;
     private int starsPerLvl = 0;
 
+    public ParticleSystem allStarsEffect;
+    public GameObject starsContainer;
+
+    public CameraMovement cm;
+
     private void Awake()
     {
         if(instance == null)
@@ -49,6 +54,7 @@ public class LevelManager : MonoBehaviour
         db = GetComponent<NoodleDB>().noodles;
         ToggleProgressObject(false);
         Time.timeScale = 1;
+        mainScreen.SetActive(true);
     }
 
     private void Update()
@@ -80,6 +86,7 @@ public class LevelManager : MonoBehaviour
             BowlCards doneBowlCard = bowlCards[prev].GetComponent<BowlCards>();
             doneBowlCard.Done();
             cardsDone++;
+            cm.speed++;
         }
     }
 
@@ -91,6 +98,7 @@ public class LevelManager : MonoBehaviour
         CalculateProgressResult();
         endLevelScreen.SetActive(true);
         mainScreen.SetActive(false);
+        starsContainer.GetComponent<Animator>().SetInteger("stars", starsPerLvl);
     }
 
     private BowlCards GetCurrentCard()
@@ -251,6 +259,7 @@ public class LevelManager : MonoBehaviour
         if (score <= maxScore && score >= threeStars)
         {
             starsPerLvl = 3;
+            allStarsEffect.Play();
         }
         else if (score >= twoStars && score <= threeStars)
         {

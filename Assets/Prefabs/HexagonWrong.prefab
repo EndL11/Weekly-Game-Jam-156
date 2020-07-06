@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5939196619477899140}
   - component: {fileID: 8577431062341193039}
   - component: {fileID: 7693223821609153422}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HexagonWrong
   m_TagString: NotNoodle
   m_Icon: {fileID: 0}

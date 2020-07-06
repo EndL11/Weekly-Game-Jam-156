@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3992922885355092862}
   - component: {fileID: -3954506092537753715}
   - component: {fileID: -6249546578410339277}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Triangle
   m_TagString: Noodle
   m_Icon: {fileID: 0}

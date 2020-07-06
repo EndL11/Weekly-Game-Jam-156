@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3991304825099657035}
   - component: {fileID: 7888121237650230259}
   - component: {fileID: -3272469516094410604}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TriangleWrong
   m_TagString: NotNoodle
   m_Icon: {fileID: 0}

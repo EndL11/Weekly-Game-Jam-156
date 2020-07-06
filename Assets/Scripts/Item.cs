@@ -2,14 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemMoving : MonoBehaviour
+public class Item : MonoBehaviour
 {
-    public float speed = 3f;
-    void Update()
-    {
-        transform.Translate(Vector2.down * speed * Time.deltaTime);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Bowl"))

@@ -15,7 +15,7 @@ public class Borders
 
 public class Bowl : MonoBehaviour
 {
-    public Borders borders;
+    public Borders borders = new Borders();
     public float speed = 5f;
     private Camera _camera;
     public ParticleSystem correctNoodle;
@@ -56,6 +56,11 @@ public class Bowl : MonoBehaviour
                                 Mathf.Clamp(transform.position.y, borders.minY, borders.maxY));
     }
 
+    private void LateUpdate()
+    {        
+        ResizeBorders();
+    }
+
     private void ResizeBorders()
     {
         borders.minX = _camera.ViewportToWorldPoint(Vector2.zero).x + borders.minX_offset;
@@ -75,8 +80,8 @@ public class Bowl : MonoBehaviour
         float mousePositionX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
         Vector2 newPosition = transform.position;
         newPosition.x = mousePositionX;
-        //transform.position = Vector2.MoveTowards(transform.position, newPosition, Time.deltaTime * speed);
-        transform.position = newPosition;
+        transform.position = Vector2.MoveTowards(transform.position, newPosition, Time.deltaTime * speed);
+        //transform.position = newPosition;
     }
 
     private void WrongitemInBowlPS()
