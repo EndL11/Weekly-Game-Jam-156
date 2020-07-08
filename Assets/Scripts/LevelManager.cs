@@ -131,7 +131,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void ChangeBowl()
+    public void ChangeBowl()
     {
         if(cardsDone == bowlCards.Length)
         {

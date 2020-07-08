@@ -44,8 +44,7 @@ public class BowlCards : MonoBehaviour
         temp2.SetType(bowlCardStats);
 
         temp.SetProgress(bowlCardStats);
-        temp.SetType(bowlCardStats);
-        
+        temp.SetType(bowlCardStats);        
 
         ChangeAppereance();
     }
@@ -96,7 +95,7 @@ public class BowlCards : MonoBehaviour
     public void Done()
     {
         done = true;
-        GetComponent<Image>().color = Color.red;
+        transform.GetChild(0).gameObject.SetActive(true);
         expectedCount = temp2.expectedProgress;
         type = temp2.type;
     }
