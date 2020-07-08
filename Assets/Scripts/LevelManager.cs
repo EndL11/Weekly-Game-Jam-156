@@ -8,38 +8,37 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
     public int score;
-
     public int correctNoodleValue = 150;
     public int wrongNoodleValue = -70;
-
     public Text scoreText;
     public Text noodleCount;
     public Image noodleIcon;
     public int currentCount;
     public int expectedCount;
     public GameObject progressObject;
-
-    private NoodleType[] db;
-
     public GameObject[] bowlCards;
-    private int cardsDone = 0;
-    private int currentCard = 0;
-
     public bool win = false;
-
     public bool pause = false;
-
     public GameObject mainScreen;
     public GameObject pauseScreen;
     public GameObject endLevelScreen;
+    public ParticleSystem allStarsEffect;
+    public ParticleSystem changeBowlEffectIcons;
+    public ParticleSystem changeBowlEffectSmoke;
+    public GameObject starsContainer;
+    public CameraMovement cm;
 
+    [Header("Audio Clips")]
+    public AudioClip changeBowlSound;
+    public AudioClip endLevelSound;
+    public AudioClip doneBowl;
+
+    private AudioSource audioSource;
+    private NoodleType[] db;
+    private int cardsDone = 0;
+    private int currentCard = 0;
     private float mistake = 31f;
     private int starsPerLvl = 0;
-
-    public ParticleSystem allStarsEffect;
-    public GameObject starsContainer;
-
-    public CameraMovement cm;
 
     private void Awake()
     {
@@ -55,6 +54,13 @@ public class LevelManager : MonoBehaviour
         ToggleProgressObject(false);
         Time.timeScale = 1;
         mainScreen.SetActive(true);
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    private void Start()
+    {
+        GameObject bowl = GameObject.FindGameObjectWithTag("Bowl");
+        SetProgress(bowl);
     }
 
     private void Update()
@@ -73,7 +79,6 @@ public class LevelManager : MonoBehaviour
     {
         currentCount++;
         ChangeNoodleProgressText();
-
         if(currentCount == expectedCount)
         {
             SelectNextCard();
@@ -94,7 +99,6 @@ public class LevelManager : MonoBehaviour
     {
         win = true;
         Time.timeScale = 0;
-        Debug.Log($"You win this lvl with score: {score}");
         CalculateProgressResult();
         endLevelScreen.SetActive(true);
         mainScreen.SetActive(false);
@@ -128,6 +132,9 @@ public class LevelManager : MonoBehaviour
             bowlCardComponent = bowlCards[currentCard].GetComponent<BowlCards>();
         }
         bowlCardComponent.SwapBowl();
+        changeBowlEffectIcons.Play();
+        changeBowlEffectSmoke.Play();
+        PasteAndPlayClip(changeBowlSound);
         if (bowlCards.Length > 1)
         {
             SelectNextCard();
@@ -174,7 +181,6 @@ public class LevelManager : MonoBehaviour
             currentCount = bowl.currentProgress;
             expectedCount = bowl.expectedProgress;
         }
-
         ChangeNoodleProgressText();
 
         ToggleProgressObject(true);
@@ -273,7 +279,11 @@ public class LevelManager : MonoBehaviour
         {
             starsPerLvl = 0;
         }
+    }
 
-        Debug.Log($"You have {starsPerLvl} stars!");
+    public void PasteAndPlayClip(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }

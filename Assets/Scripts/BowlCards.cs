@@ -96,5 +96,6 @@ public class BowlCards : MonoBehaviour
         done = true;
         GetComponent<Image>().color = Color.red;
         expectedCount = temp2.expectedProgress;
+        LevelManager.instance.PasteAndPlayClip(LevelManager.instance.doneBowl);
     }
 }
