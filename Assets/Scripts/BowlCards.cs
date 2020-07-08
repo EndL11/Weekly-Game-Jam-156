@@ -24,6 +24,8 @@ public class BowlCards : MonoBehaviour
 
     public int expectedCount = 0;
 
+    public NoodleTypes.types type;
+
     void Awake()
     {
         bowlSprite = GetGameObjectSprite(bowlCardStats.gameObject);
@@ -96,6 +98,6 @@ public class BowlCards : MonoBehaviour
         done = true;
         GetComponent<Image>().color = Color.red;
         expectedCount = temp2.expectedProgress;
-        LevelManager.instance.PasteAndPlayClip(LevelManager.instance.doneBowl);
+        type = temp2.type;
     }
 }

@@ -33,6 +33,7 @@ public class LevelManager : MonoBehaviour
     public AudioClip endLevelSound;
     public AudioClip doneBowl;
 
+    private Spawner spawner;
     private AudioSource audioSource;
     private NoodleType[] db;
     private int cardsDone = 0;
@@ -55,6 +56,7 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 1;
         mainScreen.SetActive(true);
         audioSource = GetComponent<AudioSource>();
+        spawner = GetComponent<Spawner>();
     }
 
     private void Start()
@@ -90,9 +92,20 @@ public class LevelManager : MonoBehaviour
             }
             BowlCards doneBowlCard = bowlCards[prev].GetComponent<BowlCards>();
             doneBowlCard.Done();
+            PasteAndPlayClip(doneBowl);
+            ChangeDelayAndChance(doneBowlCard.type);
+            spawner.IncreaseSpawnpointsValue();
             cardsDone++;
             cm.speed++;
         }
+    }
+
+    private void ChangeDelayAndChance(NoodleTypes.types type)
+    {
+        spawner.DivideDelay(1.5f);
+        ItemSpawnChance item = spawner.FindNoodleByType(type);
+        float sub = item.Done(1.5f);
+        spawner.AddChanceToUnDoneNoodles(sub);
     }
 
     private void WinPreparation()
