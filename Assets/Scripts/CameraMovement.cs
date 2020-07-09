@@ -5,14 +5,15 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     public float speed = 3f;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
-        
+        AudioSource audioSource = GetComponent<AudioSource>();
+        audioSource.volume = Settings.musicVolume;
+        audioSource.enabled = Settings.enableMusicAndSounds;        
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         transform.Translate(Vector2.up * Time.deltaTime * speed);
     }

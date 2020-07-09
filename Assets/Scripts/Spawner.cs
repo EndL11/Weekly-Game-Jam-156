@@ -21,18 +21,16 @@ public class ItemSpawnChance
 
 public class Spawner : MonoBehaviour
 {
-    [Range(0, 100)]
-    public float noodleChance;
-    public ItemSpawnChance[] trashPrefabs;       //  trash prefabs
     public ItemSpawnChance[] noodlePrefabs;      //  noodles prefabs
     public Transform[] spawnPoints;         //  spawn points
     private float spawnDelay = .3f;         //  delay between spawns on single wave
     private float spawnWavesDelay = .2f;    //  delay between noodle waves
-    private int maxPointsSpawn = 4;         //  max of spawn points of single wave
+    private int maxPointsSpawn = 5;         //  max of spawn points of single wave
+    private LevelManager lm;
+
 
     private void Start()
     {
-        noodleChance /= 100f;
         StartCoroutine(GenerateNoodles(spawnWavesDelay));
     }
 
@@ -40,24 +38,10 @@ public class Spawner : MonoBehaviour
     {
         while(true)
         {
-            //List<int> spawnedPoints = new List<int>();
             for (int j = 0; j < maxPointsSpawn; j++)
             {
                 int randomPoint = GetRandomNumber(spawnPoints.Length);
-                float itemCategoryChance = Random.value;
-                if (itemCategoryChance <= noodleChance)
-                {
-                    GenerateRandomPrefab(randomPoint, noodlePrefabs);
-                }
-                else
-                {
-                    GenerateRandomPrefab(randomPoint, trashPrefabs);
-                }
-                //while(spawnedPoints.Contains(randomPoint))
-                //{
-                //    randomPoint = GetRandomNumber(spawnPoints.Length);    //  for spawning by rows
-                //}
-                //spawnedPoints.Add(randomPoint);
+                GenerateRandomPrefab(randomPoint, noodlePrefabs);
                 yield return new WaitForSeconds(spawnDelay);  //  spawning single noodle with delay
             }            
             yield return new WaitForSeconds(spawnWaveDelay);    

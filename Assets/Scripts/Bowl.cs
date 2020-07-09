@@ -28,18 +28,12 @@ public class Bowl : MonoBehaviour
     public int currentProgress = 0;
     public int expectedProgress = 15;
 
-    [Header("Audio Clips")]
-    public AudioClip correctNoodleSound;
-    public AudioClip wrongNoodleSound;
-
     private Camera _camera;
-    private AudioSource audioSource;
 
     private void Awake()
     {
         _camera = Camera.main;
         ResizeBorders();
-        audioSource = GetComponent<AudioSource>();
     }
 
     public void SetProgress(Bowl temp)
@@ -90,19 +84,6 @@ public class Bowl : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, newPosition, Time.deltaTime * speed);
     }
 
-    private void WrongitemInBowlPS()
-    {
-        LevelManager.instance.AddScore(LevelManager.instance.wrongNoodleValue);
-        wrongNoodle.Play();
-        PasteAndPlayClip(wrongNoodleSound);
-    }
-
-    public void PasteAndPlayClip(AudioClip clip)
-    {
-        audioSource.clip = clip;
-        audioSource.Play();
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Noodle"))
@@ -114,16 +95,12 @@ public class Bowl : MonoBehaviour
                 LevelManager.instance.IncreaseCurrentCount();
                 correctNoodle.Play();
                 LevelManager.instance.AddScore(LevelManager.instance.correctNoodleValue);
-                PasteAndPlayClip(correctNoodleSound);
             }
             else
             {
-                WrongitemInBowlPS();
+                LevelManager.instance.AddScore(LevelManager.instance.wrongNoodleValue);
+                wrongNoodle.Play();
             }
-        }
-        else if (collision.CompareTag("NotNoodle"))
-        {
-            WrongitemInBowlPS();
         }
     }
 }

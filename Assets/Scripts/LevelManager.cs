@@ -8,23 +8,36 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
     public int score;
+
+    [Header("Noodle scores")]
     public int correctNoodleValue = 150;
     public int wrongNoodleValue = -70;
+
+    [Header("UI")]
     public Text scoreText;
     public Text noodleCount;
     public Image noodleIcon;
+
+    [Header("Current noodle quest")]
     public int currentCount;
     public int expectedCount;
+
     public GameObject progressObject;
     public GameObject[] bowlCards;
     public bool win = false;
     public bool pause = false;
+
+    [Header("Screens")]
     public GameObject mainScreen;
     public GameObject pauseScreen;
     public GameObject endLevelScreen;
+
+    [Header("PS")]
     public ParticleSystem allStarsEffect;
+    [Header("Change bowl PS")]
     public ParticleSystem changeBowlEffectIcons;
     public ParticleSystem changeBowlEffectSmoke;
+
     public GameObject starsContainer;
     public CameraMovement cm;
 
@@ -32,6 +45,8 @@ public class LevelManager : MonoBehaviour
     public AudioClip changeBowlSound;
     public AudioClip endLevelSound;
     public AudioClip doneBowl;
+    public AudioClip correctNoodleSound;
+    public AudioClip wrongNoodleSound;
 
     private Spawner spawner;
     private AudioSource audioSource;
@@ -83,12 +98,24 @@ public class LevelManager : MonoBehaviour
         ChangeNoodleProgressText();
         if(currentCount == expectedCount)
         {
+            if(bowlCards.Length == 0)
+            {
+                WinPreparation();
+                return;
+            }
             SelectNextCard();
             ChangeBowl();
             int prev = currentCard - 1;
             if ((currentCard - 1) == -1)
             {
-                prev = bowlCards.Length - 1;
+                if(bowlCards.Length > 0)
+                {
+                    prev = bowlCards.Length - 1;
+                }
+                else
+                {
+                    prev = 0;
+                }
             }
             BowlCards doneBowlCard = bowlCards[prev].GetComponent<BowlCards>();
             doneBowlCard.Done();
@@ -116,6 +143,8 @@ public class LevelManager : MonoBehaviour
         endLevelScreen.SetActive(true);
         mainScreen.SetActive(false);
         starsContainer.GetComponent<Animator>().SetInteger("stars", starsPerLvl);
+        int lvlNumber = SceneManager.GetActiveScene().buildIndex;
+        PlayerPrefs.SetInt($"Level {lvlNumber}", starsPerLvl);
     }
 
     private BowlCards GetCurrentCard()
@@ -156,6 +185,14 @@ public class LevelManager : MonoBehaviour
 
     public void AddScore(int value)
     {
+        if(value == correctNoodleValue)
+        {
+            PasteAndPlayClip(correctNoodleSound);
+        }
+        else
+        {
+            PasteAndPlayClip(wrongNoodleSound);
+        }
         score += value;
         scoreText.text = $"Score: {score}";
         CheckWin();
